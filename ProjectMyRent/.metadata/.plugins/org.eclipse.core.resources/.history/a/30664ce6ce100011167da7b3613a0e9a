@@ -1,0 +1,49 @@
+package com.myrent.tests.quotation;
+
+import com.myrent.framework.base.BaseDriver;
+import com.myrent.framework.config.ConfigReader;
+import com.myrent.framework.pages.CreateQuotation;
+import com.myrent.framework.pages.LoginPage;
+import com.myrent.tests.base.BaseTest;
+import org.testng.annotations.Test;
+
+public class CreateQuotationTest extends BaseTest {
+
+    @Test(description = "Create Quotation and handle post-create modal/redirect")
+    public void testCreateQuotation() {
+
+        // ── 1. Login (reusing LoginPage) ──────────────────────────────────────
+        LoginPage loginPage = new LoginPage(BaseDriver.getDriver());
+        loginPage.login(
+            ConfigReader.get("username"),
+            ConfigReader.get("password"),
+            ConfigReader.get("companyCode")
+        );
+
+        // ── 2. Navigate to Create Quotation page ──────────────────────────────
+        CreateQuotationPage quotationPage = new CreateQuotationPage(BaseDriver.getDriver());
+        quotationPage.navigateTo(ConfigReader.get("createQuotationUrl"));
+
+        // ── 3. Fill Driver ─────────────────────────────────────────────────────
+        quotationPage.fillDriver(ConfigReader.get("driverName"));
+
+        // ── 4. Select Client (loops all options, picks target or first) ────────
+        quotationPage.selectClient(ConfigReader.get("clientValue"));
+
+        // ── 5. Select Group ────────────────────────────────────────────────────
+        quotationPage.selectGroup(ConfigReader.get("groupValue"));
+
+        // ── 6. Select Pickup & Return ──────────────────────────────────────────
+        quotationPage.selectPickupAndReturn(ConfigReader.get("pickupValue"));
+
+        // ── 7. Fill Reservation Source + Select Commission ─────────────────────
+        quotationPage.fillReservationSource(ConfigReader.get("commSearchText"));
+        quotationPage.selectCommission(ConfigReader.get("commissionValue"));
+
+        // ── 8. Click Create ────────────────────────────────────────────────────
+        quotationPage.clickCreate();
+
+        // ── 9. Handle modal or redirect ────────────────────────────────────────
+        quotationPage.handlePostCreate();
+    }
+}

@@ -1,0 +1,8 @@
+browser=chrome
+baseUrl=https://testen.myrent.it/MyRentWeb/login/auth
+homeUrl=https://testen.myrent.it/MyRentWeb/user/home
+username=administrator
+password=admin
+companyCode=test_en
+implicitWait=10
+explicitWait=20

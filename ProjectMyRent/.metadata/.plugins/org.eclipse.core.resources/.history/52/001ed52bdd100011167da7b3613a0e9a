@@ -1,0 +1,54 @@
+package com.myrent.framework.tests;
+
+import com.myrent.framework.base.BaseTest;
+import com.myrent.framework.pages.LoginPage;
+import com.myrent.framework.pages.CreateQuotationPage;
+import com.myrent.framework.utils.ConfigReader;
+import org.testng.annotations.Test;
+
+public class CreateQuotationTest extends BaseTest {
+
+    @Test
+    public void createQuotationAndClose() {
+
+        // ── Step 1: Login (credentials from config.properties) ────────────────
+        driver.get(ConfigReader.getUrl("url.login"));
+        new LoginPage(driver, wait).login(
+            ConfigReader.getUsername(),
+            ConfigReader.getPassword(),
+            ConfigReader.getCompanyCode()
+        );
+        System.out.println("✔ Login successful");
+
+        // ── Step 2: Navigate to Create Quotation (URL from config.properties) ──
+        CreateQuotationPage quotationPage = new CreateQuotationPage(driver);
+        quotationPage.navigateTo(ConfigReader.getUrl("url.create.quotation"));
+        System.out.println("✔ Navigated to Create Quotation");
+
+        // ── Step 3: Fill Driver + trigger client AJAX ─────────────────────────
+        quotationPage.fillDriver(com.myrent.framework.config.ConfigReader.get("quotation.driverName"));
+
+        // ── Step 4: Select Client ─────────────────────────────────────────────
+        quotationPage.selectClient(ConfigReader.get("quotation.clientValue"));
+
+        // ── Step 5: Select Car Class ──────────────────────────────────────────
+        quotationPage.selectCarClass(ConfigReader.get("quotation.groupValue"));
+
+        // ── Step 6: Select Pickup & Return Location ───────────────────────────
+        quotationPage.selectPickupAndReturn(ConfigReader.get("quotation.pickupValue"));
+
+        // ── Step 7: Fill Reservation Source + Select Commission ───────────────
+        quotationPage.fillAndSelectReservationSource(
+            ConfigReader.get("quotation.commSearchText"),
+            ConfigReader.get("quotation.commissionValue")
+        );
+
+        // ── Step 8: Submit ────────────────────────────────────────────────────
+        quotationPage.clickCreate();
+
+        // ── Step 9: Handle modal or redirect after Create ─────────────────────
+        quotationPage.handlePostCreate();
+
+        System.out.println("✔ Create Quotation test completed successfully");
+    }
+}

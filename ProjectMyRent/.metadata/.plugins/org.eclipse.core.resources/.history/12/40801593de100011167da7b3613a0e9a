@@ -1,0 +1,20 @@
+package com.myrent.tests.base;
+
+import com.myrent.framework.base.BaseDriver;
+import com.myrent.framework.config.ConfigReader;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+public class BaseTest {
+
+    @BeforeMethod
+    public void setUp() {
+        BaseDriver.initDriver(ConfigReader.get("browser"));
+        BaseDriver.getDriver().get(ConfigReader.get("baseUrl"));
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        BaseDriver.quitDriver();
+    }
+}

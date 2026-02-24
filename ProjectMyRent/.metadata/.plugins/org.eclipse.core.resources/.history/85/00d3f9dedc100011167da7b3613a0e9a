@@ -1,0 +1,32 @@
+# \u2500\u2500 Browser & URLs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+# Base URL
+base.url=https://testee.myrent.it/MyRentWeb
+
+# Page URLs
+url.login=/login/auth
+url.dashboard=/user/home
+url.create.quotation=/preventivi/create?lang=en
+url.create.reservation=/MRReservation/create?lang=en
+url.create.rental=/MRRentalAgreement/create?lang=en
+
+# Credentials
+username=administrator
+password=admin
+company.code=test_en
+
+#---Credentials---
+j_username=administrator
+j_password=admin
+company=test_en
+
+# ---Data---
+driverName=ashu
+clientValue=5338
+groupValue=137
+pickupValue=33
+commSearchText=sub
+commissionValue=82
+
+#---Timeouts---
+implicitWait=10
+explicitWait=20

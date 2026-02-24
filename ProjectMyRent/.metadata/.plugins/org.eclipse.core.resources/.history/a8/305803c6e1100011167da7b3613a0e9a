@@ -1,0 +1,176 @@
+package com.myrent.framework.pages;
+
+import com.myrent.framework.utils.DropdownUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
+
+public class CreateQuotationPage {
+
+    private WebDriver     driver;
+    private WebDriverWait wait;
+    private DropdownUtils dropdown;
+
+    // ── Locators ──────────────────────────────────────────────────────────────
+    private final By driverInput     = By.id("inputValDriver");
+    private final By clientDiv       = By.id("divUpdateClient");
+    private final By clientDropdown  = By.id("client");
+    private final By groupDropdown   = By.id("groupId");
+    private final By pickupDropdown  = By.id("pickupId");
+    private final By returnDropdown  = By.id("returnId");
+    private final By commInput       = By.id("inputVal");
+    private final By commDropdown    = By.id("commissionis");
+    private final By createBtn       = By.xpath("//input[@id='create']");
+    private final By closeBtn        = By.xpath("//button[normalize-space()='Close']");
+    private final By modalDismissBtn = By.cssSelector("button[data-dismiss='modal']");
+    private final By modalBody       = By.cssSelector(".modal-body");
+
+    // ── Constructor ───────────────────────────────────────────────────────────
+    public CreateQuotationPage(WebDriver driver) {
+        this.driver   = driver;
+        this.wait     = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.dropdown = new DropdownUtils(driver);
+    }
+
+    // ── Generic: wait for dropdown to have options then select ────────────────
+    // Tries exact value match → then partial text match → then first option
+    private void waitAndSelect(By locator, String valueOrText) {
+        // Wait until dropdown has at least 2 options (more than just "Select One...")
+        wait.until(d -> {
+            List<WebElement> opts = d.findElement(locator).findElements(By.tagName("option"));
+            return opts.size() > 1;
+        });
+
+        Select select = new Select(driver.findElement(locator));
+        List<WebElement> options = select.getOptions();
+
+        // 1. Try exact value match
+        for (WebElement opt : options) {
+            if (opt.getAttribute("value").equals(valueOrText)) {
+                select.selectByValue(valueOrText);
+                System.out.println("✔ Selected by value [" + valueOrText + "] in " + locator);
+                return;
+            }
+        }
+
+        // 2. Try partial visible text match (case-insensitive)
+        for (WebElement opt : options) {
+            if (opt.getText().toLowerCase().contains(valueOrText.toLowerCase())) {
+                select.selectByVisibleText(opt.getText());
+                System.out.println("✔ Selected by text match [" + opt.getText() + "] in " + locator);
+                return;
+            }
+        }
+
+        // 3. Fallback: select first real option (skip "Select One...")
+        for (WebElement opt : options) {
+            String val = opt.getAttribute("value");
+            if (val != null && !val.isEmpty() && !val.equalsIgnoreCase("null")) {
+                select.selectByValue(val);
+                System.out.println("⚠ Fallback: selected first available [" + opt.getText() + "] in " + locator);
+                return;
+            }
+        }
+
+        throw new RuntimeException("❌ No selectable option found in dropdown: " + locator);
+    }
+
+    // ── Navigate ──────────────────────────────────────────────────────────────
+    public void navigateTo(String url) {
+        driver.get(url);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(driverInput));
+    }
+
+    // ── Step 1: Fill Driver + trigger AJAX ────────────────────────────────────
+    public void fillDriver(String driverName) {
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(driverInput));
+        input.clear();
+        input.sendKeys(driverName);
+        driver.findElement(clientDiv).click();
+        System.out.println("✔ Driver filled: " + driverName);
+    }
+
+    // ── Step 2: Client ────────────────────────────────────────────────────────
+    // Pass value ID (e.g. "5338") or partial name (e.g. "KUMAR")
+    public void selectClient(String valueOrText) {
+        waitAndSelect(clientDropdown, valueOrText);
+    }
+
+    // ── Step 3: Car Class ─────────────────────────────────────────────────────
+    // Pass value ID (e.g. "125") or partial name (e.g. "FORBICE DIESEL")
+    public void selectCarClass(String valueOrText) {
+        waitAndSelect(groupDropdown, valueOrText);
+    }
+
+    // ── Step 4: Pickup & Return ───────────────────────────────────────────────
+    // Pass value ID (e.g. "33") or partial name (e.g. "LEGNANO")
+    public void selectPickupAndReturn(String valueOrText) {
+        waitAndSelect(pickupDropdown, valueOrText);
+        waitAndSelect(returnDropdown, valueOrText);
+    }
+
+    // ── Step 5: Reservation Source ────────────────────────────────────────────
+    // Pass value ID (e.g. "82") or partial name (e.g. "AUTOCARRATE")
+    public void fillAndSelectReservationSource(String searchText, String valueOrText) {
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(commInput));
+        input.clear();
+        input.sendKeys(searchText);
+        System.out.println("✔ Reservation source typed: " + searchText);
+        waitAndSelect(commDropdown, valueOrText);
+    }
+
+    // ── Step 6: Submit ────────────────────────────────────────────────────────
+    public void clickCreate() {
+        WebElement btn = wait.until(ExpectedConditions.invisibilityOfAllElements("create");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", btn);
+        btn.click();
+        System.out.println("✔ Create button clicked");
+    }
+
+    // ── Step 7: Handle Post-Create Modal / Redirect ───────────────────────────
+    public void handlePostCreate() {
+        try {
+            WebElement close = wait.until(ExpectedConditions.elementToBeClickable(closeBtn));
+            close.click();
+        } catch (Exception e) {
+            System.out.println("ℹ Close button not found, checking for modal...");
+        }
+
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.visibilityOfElementLocated(modalDismissBtn));
+
+            String content = driver.findElement(modalBody).getText();
+            System.out.println("Modal content: " + content);
+
+            boolean hasError = List.of("cannot apply", "error", "invalid")
+                    .stream()
+                    .anyMatch(k -> content.toLowerCase().contains(k));
+
+            if (hasError) {
+                throw new AssertionError("❌ Modal error after Create: " + content);
+            }
+
+            ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();", driver.findElement(modalDismissBtn)
+            );
+            System.out.println("✔ Modal dismissed successfully");
+
+        } catch (AssertionError ae) {
+            throw ae;
+        } catch (Exception e) {
+            String url = driver.getCurrentUrl();
+            if (url.contains("/preventivi/create")) {
+                throw new AssertionError("❌ Expected redirect after Create but URL unchanged: " + url);
+            }
+            System.out.println("✔ Quotation created — redirected to: " + url);
+        }
+    }
+}

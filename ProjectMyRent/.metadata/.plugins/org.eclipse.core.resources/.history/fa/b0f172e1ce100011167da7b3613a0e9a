@@ -1,0 +1,143 @@
+package com.myrent.framework.pages;
+
+import com.myrent.framework.utils.DropdownUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
+
+public class CreateQuotationPage {
+
+    private WebDriver       driver;
+    private WebDriverWait   wait;
+    private DropdownUtils   dropdown;
+
+    // ── Locators ──────────────────────────────────────────────────────────────
+    private final By driverInput      = By.id("inputValDriver");
+    private final By clientDiv        = By.id("divUpdateClient");
+    private final By clientDropdown   = By.id("client");
+    private final By groupDropdown    = By.id("groupId");
+    private final By pickupDropdown   = By.id("pickupId");
+    private final By returnDropdown   = By.id("returnId");
+    private final By commInput        = By.id("inputVal");
+    private final By commDropdown     = By.id("commissionis");
+    private final By createBtn        = By.xpath("//button[normalize-space()='Create']");
+    private final By closeBtn         = By.xpath("//button[normalize-space()='Close']");
+    private final By modalDismissBtn  = By.cssSelector("button[data-dismiss='modal']");
+    private final By modalBody        = By.cssSelector(".modal-body");
+
+    // ── Constructor ───────────────────────────────────────────────────────────
+    public CreateQuotationPage(WebDriver driver) {
+        this.driver   = driver;
+        this.wait     = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.dropdown = new DropdownUtils(driver);
+    }
+
+    // ── Navigate ──────────────────────────────────────────────────────────────
+    public void navigateTo(String url) {
+        driver.get(url);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(driverInput));
+    }
+
+    // ── Step 1: Fill Driver + trigger AJAX ────────────────────────────────────
+    public void fillDriver(String driverName) {
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(driverInput));
+        input.clear();
+        input.sendKeys(driverName);
+        driver.findElement(clientDiv).click();  // trigger AJAX
+        System.out.println("✔ Driver filled: " + driverName);
+    }
+
+    // ── Step 2: Client Dropdown ───────────────────────────────────────────────
+    public void selectClient(String targetValue) {
+        dropdown.printAllOptions(clientDropdown, "Client");
+        dropdown.selectByValueOrFirst(clientDropdown, targetValue);
+        System.out.println("✔ Client selected: " + targetValue);
+    }
+
+    // ── Step 3: Group Dropdown ────────────────────────────────────────────────
+    public void selectGroup(String targetValue) {
+        dropdown.printAllOptions(groupDropdown, "Group");
+        dropdown.selectByValueOrFirst(groupDropdown, targetValue);
+        System.out.println("✔ Group selected: " + targetValue);
+    }
+
+    // ── Step 4: Pickup & Return Dropdowns ─────────────────────────────────────
+    public void selectPickupAndReturn(String targetValue) {
+        dropdown.printAllOptions(pickupDropdown, "Pickup");
+        dropdown.selectByValueOrFirst(pickupDropdown, targetValue);
+        dropdown.selectByValueOrFirst(returnDropdown, targetValue);
+        System.out.println("✔ Pickup & Return selected: " + targetValue);
+    }
+
+    // ── Step 5: Reservation Source (Commission) ───────────────────────────────
+    public void fillReservationSource(String searchText) {
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(commInput));
+        input.clear();
+        input.sendKeys(searchText);
+        System.out.println("✔ Reservation source typed: " + searchText);
+    }
+
+    public void selectCommission(String targetValue) {
+        dropdown.printAllOptions(commDropdown, "Commission / Reservation Source");
+        dropdown.selectByValueOrFirst(commDropdown, targetValue);
+        System.out.println("✔ Commission selected: " + targetValue);
+    }
+
+    // ── Step 6: Submit ────────────────────────────────────────────────────────
+    public void clickCreate() {
+        WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(createBtn));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", btn);
+        btn.click();
+        System.out.println("✔ Create button clicked");
+    }
+
+    // ── Step 7: Handle Post-Create Modal / Redirect ───────────────────────────
+    public void handlePostCreate() {
+        try {
+            // Click Close if visible
+            WebElement close = wait.until(ExpectedConditions.elementToBeClickable(closeBtn));
+            close.click();
+        } catch (Exception e) {
+            System.out.println("ℹ Close button not found, checking for modal...");
+        }
+
+        // Check if error modal appeared
+        try {
+            WebElement modal = new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.visibilityOfElementLocated(modalDismissBtn));
+
+            String content = driver.findElement(modalBody).getText();
+            System.out.println("Modal content: " + content);
+
+            boolean hasError = List.of("cannot apply", "error", "invalid")
+                    .stream()
+                    .anyMatch(keyword -> content.toLowerCase().contains(keyword));
+
+            if (hasError) {
+                throw new AssertionError("❌ Modal showed an error after Create: " + content);
+            }
+
+            // Dismiss modal via JS
+            ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();", driver.findElement(modalDismissBtn)
+            );
+            System.out.println("✔ Modal dismissed successfully");
+
+        } catch (AssertionError ae) {
+            throw ae;
+        } catch (Exception e) {
+            // No modal — check redirect happened
+            String currentUrl = driver.getCurrentUrl();
+            if (currentUrl.contains("/preventivi/create")) {
+                throw new AssertionError("❌ Expected redirect after Create but URL did not change: " + currentUrl);
+            }
+            System.out.println("✔ Quotation created — redirected to: " + currentUrl);
+        }
+    }
+}

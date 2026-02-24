@@ -1,0 +1,5 @@
+package com.myrent.framework.pages;
+
+public class LoginPage {
+
+}

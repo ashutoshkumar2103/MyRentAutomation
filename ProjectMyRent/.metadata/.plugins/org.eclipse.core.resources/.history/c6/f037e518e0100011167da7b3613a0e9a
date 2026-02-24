@@ -1,0 +1,41 @@
+package com.myrent.framework.config;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class ConfigReader {
+
+    private static Properties props;
+
+    static {
+        try {
+            FileInputStream file = new FileInputStream(
+                "src/test/resources/config.properties"
+            );
+            props = new Properties();
+            props.load(file);
+        } catch (IOException e) {
+            throw new RuntimeException("❌ Could not load config.properties: " + e.getMessage());
+        }
+    }
+
+    // Get any property by key
+    public static String get(String key) {
+        String value = props.getProperty(key);
+        if (value == null) {
+            throw new RuntimeException("❌ Property not found in config.properties: " + key);
+        }
+        return value.trim();
+    }
+
+    // Convenience: full URL by combining base + path key
+    public static String getUrl(String pathKey) {
+        return get("base.url") + get(pathKey);
+    }
+
+    // Convenience: credentials
+    public static String getUsername()    { return get("username"); }
+    public static String getPassword()    { return get("password"); }
+    public static String getCompanyCode() { return get("company.code"); }
+}

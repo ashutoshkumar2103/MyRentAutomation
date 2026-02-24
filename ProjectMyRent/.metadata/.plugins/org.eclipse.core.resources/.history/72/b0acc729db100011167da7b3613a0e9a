@@ -1,0 +1,22 @@
+# \u2500\u2500 Browser & URLs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+browser=chrome
+baseUrl=https://testen.myrent.it/MyRentWeb/login/auth
+homeUrl=https://testen.myrent.it/MyRentWeb/user/home?
+createQuotationUrl=https://testen.myrent.it/MyRentWeb/preventivi/create?lang=en
+
+# \u2500\u2500 Login Credentials \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+username=administrator
+password=admin
+companyCode=test_en
+
+# ---Data---
+driverName=ashu
+clientValue=5338
+groupValue=137
+pickupValue=33
+commSearchText=sub
+commissionValue=82
+
+#---Timeouts---
+implicitWait=10
+explicitWait=20
