@@ -1,3 +1,2 @@
-2026/02/23-21:13:29.020 7980 Reusing MANIFEST C:\Users\ashut\eclipse-workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
-2026/02/23-21:13:29.036 7980 Recovering log #3
-2026/02/23-21:13:29.041 7980 Reusing old log C:\Users\ashut\eclipse-workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+2026/02/24-23:32:10.991 e30 Creating DB C:\MyRentAutomation\ProjectMyRent\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb since it was missing.
+2026/02/24-23:32:11.021 e30 Reusing MANIFEST C:\MyRentAutomation\ProjectMyRent\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001

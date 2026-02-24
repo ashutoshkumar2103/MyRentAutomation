@@ -1,0 +1,186 @@
+package com.myrent.tests.pages;
+package com.myrent.tests.;
+
+import com.myrent.framework.base.BaseDriver;
+import com.myrent.framework.config.ConfigReader;
+import com.myrent.framework.pages.CreateReservationPage;
+import com.myrent.framework.pages.LoginPage;
+import com.myrent.tests.base.BaseTest;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+/**
+ * Test suite for Create Reservation feature.
+ *
+ * All test data is read from config.properties — see the
+ * "Reservation Test Data" block added at the bottom of config.properties.
+ *
+ * Execution order (each @Test is independent):
+ *   1. testCreateReservationFullFlow   — happy path end-to-end
+ *   2. testReservationPageUIElements   — verifies all required fields are visible
+ */
+public class CreateReservationTest extends BaseTest {
+
+    // ── Login before every test method ────────────────────────────────────────
+    @BeforeMethod
+    public void loginBeforeTest() {
+        WebDriver driver = BaseDriver.getDriver();
+        driver.get(ConfigReader.getUrl("url.login"));
+
+        new LoginPage(driver).login(
+                ConfigReader.getUsername(),
+                ConfigReader.getPassword(),
+                ConfigReader.getCompanyCode()
+        );
+        System.out.println("✔ Login successful");
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // TEST 1 — Happy Path: Create a full reservation end-to-end
+    // ══════════════════════════════════════════════════════════════════════════
+
+    @Test(description = "Create a reservation with all required fields and verify success")
+    public void testCreateReservationFullFlow() {
+
+        WebDriver driver = BaseDriver.getDriver();
+
+        // ── Navigate to Create Reservation ───────────────────────────────────
+        CreateReservationPage page = new CreateReservationPage(driver);
+        page.navigateTo(ConfigReader.getUrl("url.create.reservation"));
+        System.out.println("✔ Navigated to Create Reservation");
+
+        // ── Step 1: Select Client ─────────────────────────────────────────────
+        // Types search text into inputValClient → AJAX populates #client select
+        page.fillAndSelectClient(
+                ConfigReader.get("reservation.clientSearch"),
+                ConfigReader.get("reservation.clientValue")
+        );
+
+        // ── Step 2: Select Car Class ──────────────────────────────────────────
+        // select#group  →  auto-fills Assigned Group on change
+        page.selectCarClass(
+                ConfigReader.get("reservation.carClassValue")
+        );
+
+        // ── Step 3: Pickup Location ───────────────────────────────────────────
+        // select#locationPickupExcepted
+        page.selectPickupLocation(
+                ConfigReader.get("reservation.pickupLocationValue")
+        );
+
+        // ── Step 4: Pickup Date & Time ────────────────────────────────────────
+        page.setPickupDate(ConfigReader.get("reservation.pickupDate"));
+        page.setPickupTime(ConfigReader.get("reservation.pickupTime"));
+
+        // ── Step 5: Return Location ───────────────────────────────────────────
+        // select#locationReturnExcepted
+        page.selectReturnLocation(
+                ConfigReader.get("reservation.returnLocationValue")
+        );
+
+        // ── Step 6: Return Date & Time ────────────────────────────────────────
+        page.setReturnDate(ConfigReader.get("reservation.returnDate"));
+        page.setReturnTime(ConfigReader.get("reservation.returnTime"));
+
+        // ── Step 7: Submit ────────────────────────────────────────────────────
+        page.clickCreate();
+
+        // ── Step 8: Verify redirect / modal success ───────────────────────────
+        page.handlePostCreate();
+
+        // ── Final assertion: URL must have changed away from /create ──────────
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertFalse(
+                currentUrl.contains("/MRReservation/create"),
+                "Expected redirect after reservation creation but URL is still: " + currentUrl
+        );
+        System.out.println("✔ Reservation created — final URL: " + currentUrl);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // TEST 2 — UI Validation: All required fields are visible on page load
+    // ══════════════════════════════════════════════════════════════════════════
+
+    @Test(description = "Verify all required UI elements are visible on the Create Reservation page")
+    public void testReservationPageUIElements() {
+
+        WebDriver driver = BaseDriver.getDriver();
+
+        // Navigate to page
+        driver.get(ConfigReader.getUrl("url.create.reservation"));
+
+        // ── Client fields ─────────────────────────────────────────────────────
+        Assert.assertTrue(
+                driver.findElement(By.id("inputValClient")).isDisplayed(),
+                "Client search input not visible"
+        );
+        Assert.assertTrue(
+                driver.findElement(By.id("client")).isDisplayed(),
+                "Client dropdown not visible"
+        );
+
+        // ── Car Class ─────────────────────────────────────────────────────────
+        Assert.assertTrue(
+                driver.findElement(By.id("group")).isDisplayed(),
+                "Car Class Booked dropdown not visible"
+        );
+
+        // ── Pickup fields ─────────────────────────────────────────────────────
+        Assert.assertTrue(
+                driver.findElement(By.id("locationPickupExcepted")).isDisplayed(),
+                "Pickup location dropdown not visible"
+        );
+        Assert.assertTrue(
+                driver.findElement(By.id("startDate")).isDisplayed(),
+                "Start Date input not visible"
+        );
+        Assert.assertTrue(
+                driver.findElement(By.id("startTime")).isDisplayed(),
+                "Start Time input not visible"
+        );
+
+        // ── Return fields ─────────────────────────────────────────────────────
+        Assert.assertTrue(
+                driver.findElement(By.id("locationReturnExcepted")).isDisplayed(),
+                "Return location dropdown not visible"
+        );
+        Assert.assertTrue(
+                driver.findElement(By.id("endDate")).isDisplayed(),
+                "End Date input not visible"
+        );
+        Assert.assertTrue(
+                driver.findElement(By.id("endTime")).isDisplayed(),
+                "End Time input not visible"
+        );
+
+        System.out.println("✔ All required UI elements are visible on Create Reservation page");
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // TEST 3 — Reservation Status defaults to "On Wait"
+    // ══════════════════════════════════════════════════════════════════════════
+
+    @Test(description = "Verify default reservation status is On Wait on page load")
+    public void testDefaultReservationStatus() {
+
+        WebDriver driver = BaseDriver.getDriver();
+        driver.get(ConfigReader.getUrl("url.create.reservation"));
+
+        // Wait for page to load — check status dropdown default
+        String defaultStatus = driver.findElement(By.id("statusId"))
+                .findElement(By.cssSelector("option[selected], option:checked"))
+                .getText();
+
+        Assert.assertTrue(
+                defaultStatus.toLowerCase().contains("wait") ||
+                defaultStatus.toLowerCase().contains("pending"),
+                "Expected default status 'On Wait' but got: " + defaultStatus
+        );
+
+        System.out.println("✔ Default reservation status verified: " + defaultStatus);
+    }
+}

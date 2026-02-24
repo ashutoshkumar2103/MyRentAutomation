@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="0" failed="2" skipped="0">
+<testng-results ignored="0" total="3" passed="0" failed="0" skipped="3">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-02-23T23:51:36 IST" name="Default suite" finished-at="2026-02-23T23:51:40 IST" duration-ms="3646">
+  <suite started-at="2026-02-24T23:49:08 IST" name="Default suite" finished-at="2026-02-24T23:49:15 IST" duration-ms="6835">
     <groups>
     </groups>
-    <test started-at="2026-02-23T23:51:36 IST" name="Default test" finished-at="2026-02-23T23:51:40 IST" duration-ms="3646">
-      <class name="com.myrent.tests.login.LoginTest">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myrent.tests.login.LoginTest@2b71e916]" started-at="2026-02-23T23:51:36 IST" name="setUp" finished-at="2026-02-23T23:51:38 IST" duration-ms="2102" status="PASS">
+    <test started-at="2026-02-24T23:49:08 IST" name="Default test" finished-at="2026-02-24T23:49:15 IST" duration-ms="6835">
+      <class name="com.myrent.tests.pages.CreateReservationTest">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:08 IST" name="setUp" finished-at="2026-02-24T23:49:15 IST" duration-ms="6716" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="testLoginPageUI()[pri:0, instance:com.myrent.tests.login.LoginTest@2b71e916]" started-at="2026-02-23T23:51:38 IST" name="testLoginPageUI" description="UI elements are visible on Login Page" finished-at="2026-02-23T23:51:38 IST" duration-ms="20" status="FAIL">
+        <test-method is-config="true" signature="loginBeforeTest()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="loginBeforeTest" finished-at="2026-02-24T23:49:15 IST" duration-ms="30" status="FAIL">
           <exception class="java.lang.NullPointerException">
             <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because the return value of "com.myrent.framework.base.BaseDriver.getDriver()" is null]]>
+              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because the return value of "com.myrent.framework.base.BaseDriver.getDriver()" is null
-at com.myrent.tests.login.LoginTest.testLoginPageUI(LoginTest.java:45)
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null
+at com.myrent.tests.pages.CreateReservationTest.loginBeforeTest(CreateReservationTest.java:31)
 at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
-at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:69)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:393)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:326)
+at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:810)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:578)
 at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:228)
 at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
 at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:961)
@@ -50,32 +54,23 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testLoginPageUI -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.myrent.tests.login.LoginTest@2b71e916]" started-at="2026-02-23T23:51:38 IST" name="tearDown" finished-at="2026-02-23T23:51:39 IST" duration-ms="197" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myrent.tests.login.LoginTest@2b71e916]" started-at="2026-02-23T23:51:39 IST" name="setUp" finished-at="2026-02-23T23:51:40 IST" duration-ms="1098" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setUp -->
-        <test-method signature="testValidLogin()[pri:0, instance:com.myrent.tests.login.LoginTest@2b71e916]" started-at="2026-02-23T23:51:40 IST" name="testValidLogin" description="Valid user can login successfully" finished-at="2026-02-23T23:51:40 IST" duration-ms="16" status="FAIL">
+        </test-method> <!-- loginBeforeTest -->
+        <test-method signature="testCreateReservationFullFlow()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="testCreateReservationFullFlow" description="Create a reservation with all required fields and verify success" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
           <exception class="java.lang.NullPointerException">
             <message>
-              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "driver" is null]]>
+              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "driver" is null
-at org.openqa.selenium.support.ui.ExpectedConditions$7.apply(ExpectedConditions.java:194)
-at org.openqa.selenium.support.ui.ExpectedConditions$7.apply(ExpectedConditions.java:190)
-at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:203)
-at com.myrent.framework.pages.LoginPage.enterUsername(LoginPage.java:29)
-at com.myrent.framework.pages.LoginPage.login(LoginPage.java:56)
-at com.myrent.tests.login.LoginTest.testValidLogin(LoginTest.java:21)
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null
+at com.myrent.tests.pages.CreateReservationTest.loginBeforeTest(CreateReservationTest.java:31)
 at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
-at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:69)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:393)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:326)
+at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:810)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:578)
 at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:228)
 at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
 at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:961)
@@ -103,12 +98,124 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testValidLogin -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.myrent.tests.login.LoginTest@2b71e916]" started-at="2026-02-23T23:51:40 IST" name="tearDown" finished-at="2026-02-23T23:51:40 IST" duration-ms="154" status="PASS">
+        </test-method> <!-- testCreateReservationFullFlow -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="tearDown" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- com.myrent.tests.login.LoginTest -->
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="setUp" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method signature="testDefaultReservationStatus()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="testDefaultReservationStatus" description="Verify default reservation status is On Wait on page load" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <exception class="java.lang.NullPointerException">
+            <message>
+              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null
+at com.myrent.tests.pages.CreateReservationTest.loginBeforeTest(CreateReservationTest.java:31)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:69)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:393)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:326)
+at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:810)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:578)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:228)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:961)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:201)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+at org.testng.TestRunner.privateRun(TestRunner.java:819)
+at org.testng.TestRunner.run(TestRunner.java:619)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1228)
+at org.testng.TestNG.runSuites(TestNG.java:1134)
+at org.testng.TestNG.run(TestNG.java:1101)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDefaultReservationStatus -->
+        <test-method is-config="true" signature="loginBeforeTest()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="loginBeforeTest" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginBeforeTest -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="tearDown" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="setUp" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="loginBeforeTest()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="loginBeforeTest" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginBeforeTest -->
+        <test-method signature="testReservationPageUIElements()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="testReservationPageUIElements" description="Verify all required UI elements are visible on the Create Reservation page" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <exception class="java.lang.NullPointerException">
+            <message>
+              <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "driver" is null
+at com.myrent.tests.pages.CreateReservationTest.loginBeforeTest(CreateReservationTest.java:31)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:69)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:393)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:326)
+at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:810)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:578)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:228)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:961)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:201)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+at org.testng.TestRunner.privateRun(TestRunner.java:819)
+at org.testng.TestRunner.run(TestRunner.java:619)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1228)
+at org.testng.TestNG.runSuites(TestNG.java:1134)
+at org.testng.TestNG.run(TestNG.java:1101)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testReservationPageUIElements -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.myrent.tests.pages.CreateReservationTest@6b2ea799]" started-at="2026-02-24T23:49:15 IST" name="tearDown" finished-at="2026-02-24T23:49:15 IST" duration-ms="0" status="SKIP">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.myrent.tests.pages.CreateReservationTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

@@ -1,0 +1,5 @@
+package com.myrent.tests.quotation;
+
+public class CreateReservationTest {
+
+}

@@ -3,14 +3,16 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.myrent.tests.login.LoginTest">
+      <class name="com.myrent.tests.pages.CreateReservationTest">
         <methods>
-          <include name="testValidLogin"/>
+          <include name="testDefaultReservationStatus"/>
+          <include name="loginBeforeTest"/>
+          <include name="testCreateReservationFullFlow"/>
           <include name="tearDown"/>
-          <include name="testLoginPageUI"/>
+          <include name="testReservationPageUIElements"/>
           <include name="setUp"/>
         </methods>
-      </class> <!-- com.myrent.tests.login.LoginTest -->
+      </class> <!-- com.myrent.tests.pages.CreateReservationTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
